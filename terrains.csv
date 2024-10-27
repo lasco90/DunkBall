@@ -1,11 +1,11 @@
-Nom,Adresse,Code Postal,Ville,Etat,commentaire
-Terrain de Coulommiers,Seine-et-Marne,77120,Coulommiers,Bon,
-Complexe Sportifde Crécy-la-Chapelle,31 Rue Saint-Martin,77580,Voulangis,moyen,terrain un peu sale donc ramener des chaussur d'exterieur
-Stade Tauziet (Meaux),Seine-et-Marne,77100,Meaux,Bon,terrain tres propre et entretenus mais souvent plein
-Parc des Sports de La Ferté-sous-Jouarre,Seine-et-Marne,77260,Ferte-sous-jouarre,Bon,
-Gymnase Raymond Boisset (Provins),Seine-et-Marne,77160,Raymond Boisset,exellent,
-Terrain de Fontenay-Trésigny,Seine-et-Marne,77220,Fontenay-Tresigny,Bon,la balle ne rebondie pas a cause de la texture du sol
-Stade Municipal de Saint-Augustin,Seine-et-Marne,77400,Saint-Augustin,exellent,
-Terrain de Serris,Seine-et-Marne,77700,Serris ,Bon,"terrain propore , grand, et neuf "
-Complexe Sportif de Lagny-sur-Marne,Seine-et-Marne,77400,Lagny-sur-Marne,Bon,
-Terrain de Esbly,Seine-et-Marne,77450,Esbly,Bon,
+Nom,Adresse,Code Postal,Ville,Latitude,Longitute,Etat,nombre de panier,type city,arrseaux simple,arrseaux double,arrseaux prolonger,commentaire
+Terrain de Coulommiers,Seine-et-Marne,77120,Coulommiers,48.81279927728215,3.0932186014853724,Bon,4,0,4,0,0,
+Complexe Sportifde Crécy-la-Chapelle,31 Rue Saint-Martin,77580,Voulangis,48.857267527253605,2.9155899960620704,Moyen,2,2,,,,terrain un peu sale donc ramener des chaussur d'exterieur
+Stade Tauziet (Meaux),Seine-et-Marne,77100,Meaux,48.9555014501392,2.898935676952632,Bon,6,2,4,2,0,terrain tres propre et entretenus mais souvent plein
+Parc des Sports de La Ferté-sous-Jouarre,Seine-et-Marne,77260,Ferte-sous-jouarre,48.9448608632353,3.1252821527717756,Bon,1,2,0,1,2,
+Gymnase Raymond Boisset (Provins),Seine-et-Marne,77160,Raymond Boisset,48.56476518411139,3.2989477737645316,Exellent,4,0,4,0,0,
+Terrain de Fontenay-Trésigny,Seine-et-Marne,77220,Fontenay-Tresigny,48.70341438276931,2.780165284066814,Bon,0,2,0,2,0,la balle ne rebondie pas a cause de la texture du sol
+Stade Municipal de Saint-Augustin,Seine-et-Marne,77400,Saint-Augustin,48.859773732066806,2.673214587832584,Exellent,6,0,6,0,0,
+Terrain de Serris,Seine-et-Marne,77700,Serris ,48.84969397458795,2.7900059260241012,Bon,4,2,4,2,0,"terrain propore , grand, et neuf "
+Complexe Sportif de Lagny-sur-Marne,Seine-et-Marne,77400,Lagny-sur-Marne,48.86623202746226,2.70920312595083,Bon,4,0,4,0,0,
+Terrain de Esbly,Seine-et-Marne,77450,Esbly,48.90085974916179,2.8073044538527197,Bon,2,0,0,2,0,
