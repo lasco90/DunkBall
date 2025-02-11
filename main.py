@@ -1,70 +1,103 @@
+import numpy as np
 import streamlit as st
 import pandas as pd
-
+import csv
+import requests
+from datetime import datetime
 # Configuration de la page
-st.set_page_config(page_title="Dunkball - Terrains de basket", layout="wide")
+
+st.set_page_config(
+    layout="wide", page_title="Dunkball - Terrains de basket", page_icon=":basketball:")
 
 # Titre de l'application
-st.title("Dunkball")
+st.title(":basketball: Dunkball", anchor=False)
 st.subheader("Liste des terrains de basket")
 
 # Lecture du fichier CSV
+API_KEY = "AIzaSyBF1ttSNSKP2Ylz3SuGAaAc1T8G5cZ5e6A"
+
+# url csv https://docs.google.com/spreadsheets/d/e/2PACX-1vTim8FmmeIWAEc2c70WoA3wRZeRePAQkWQE8jRq3_OQvDQyfgQSWHhsiFRRsPgdZCEdt1gTV0WUdcHN/pub?output=csv
 
 
+@st.cache_data(ttl=600, show_spinner="Chargement des données...")
 def load_data():
-    df = pd.read_csv('terrains.csv')
-    return df
+    url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTim8FmmeIWAEc2c70WoA3wRZeRePAQkWQE8jRq3_OQvDQyfgQSWHhsiFRRsPgdZCEdt1gTV0WUdcHN/pub?output=csv"
+    response = requests.get(url)
+    reader = list(csv.reader(response.text.splitlines()))
+    headers = reader[0]
+    data = reader[1:]
+    st.caption(
+        f"Données mise à jour à {datetime.now().strftime('%H:%M:%S')}")
+    return [dict(zip(headers, row)) for row in data]
 
 
 # Chargement des données
-df = load_data()
+terrains = load_data()
 
 
-# Filtres
-col1, col2 = st.columns(2)
+def afficher_terrains(terrains):
+    # Affichage des terrains
+    for terrain_data in terrains:
+        terrain = {
+            'nom': terrain_data['Nom'],
+            'ville': terrain_data['Ville'],
+            'etat': terrain_data['Etat'],
+            'latitude': terrain_data['Latitude'],
+            'longitude': terrain_data['Longitute'],
+            'nombre_de_paniers': terrain_data['nombre de panier'],
+            'commentaire': terrain_data['commentaire'].strip(),
+            'type_city': terrain_data['type city'],
+            'arceaux_simple': terrain_data['arrseaux simple'],
+            'arceaux_double': terrain_data['arrseaux double'],
+            'arceaux_prolonger': terrain_data['arrseaux prolonger'],
+            'adresse': terrain_data['Adresse'],
+            'code_postal': terrain_data['Code Postal']
+        }
+        main = st.empty()
+        with st.container(border=True):
+            if st.button(terrain['nom'], type="tertiary"):
+                afficher_terrain(terrain)
+            st.caption(
+                f"{terrain['etat']} - {terrain['ville']} - {terrain['nombre_de_paniers']} paniers")
 
-with col1:
-    # Filtre par ville
-    villes = ['Toutes les villes'] + sorted(df['Ville'].unique().tolist())
-    ville_selectionnee = st.selectbox('Filtrer par ville:', villes)
+    if st.button("Rafraîchir les données"):
+        main.empty()
+        load_data.clear()
+        st.rerun()
 
-with col2:
-    # Filtre par état
-    etats = ['Tous les états'] + sorted(df['Etat'].unique().tolist())
-    etat_selectionne = st.selectbox('Filtrer par état:', etats)
 
-# Application des filtres
-filtered_df = df.copy()
-if ville_selectionnee != 'Toutes les villes':
-    filtered_df = filtered_df[filtered_df['Ville'] == ville_selectionnee]
-if etat_selectionne != 'Tous les états':
-    filtered_df = filtered_df[filtered_df['Etat'] == etat_selectionne]
+@st.dialog(title="Informations sur le terrain", width="large")
+def afficher_terrain(terrain):
 
-# Affichage des terrains
-for _, terrain in filtered_df.iterrows():
-    with st.expander(f"🏀 {terrain['Nom']} - {terrain['Ville']}"):
+    st.subheader(f"🏀 {terrain['nom']}")
+    col1, col2 = st.columns(2)
 
-        col1, col2 = st.columns(2)
+    with col1:
+        st.write(f"{terrain['adresse']}")
+        st.write(f"{terrain['ville']} {terrain['code_postal']}")
+        st.write(f"**État:** {terrain['etat']}")
+        st.metric(
+            f"**Nombre de paniers:**", terrain['nombre_de_paniers'])
+        # st.write("**Latitude:**", latitude)
+        # st.write("**Longitude:**", longitude)
+    st.markdown(f"""<iframe
+    width="450"
+    height="250"
+    frameborder="0" style="border:0"
+    referrerpolicy="no-referrer-when-downgrade"
+    src="https://www.google.com/maps/embed/v1/place?key={API_KEY}&q={terrain['latitude']}, {terrain['longitude']}"
+    allowfullscreen>
+    </iframe>""", unsafe_allow_html=True)
 
-        with col1:
-            st.write("**Adresse:**", terrain['Adresse'])
-            st.write("**Code Postal:**", terrain['Code Postal'])
-            st.write("**État:**", terrain['Etat'])
-            st.write("**Nombre de paniers:**", terrain['nombre de panier'])
+    with col2:
+        st.write("**Type city:**",
+                 "Oui" if terrain['type_city'] == 2 else "Non")
+        st.metric("**Arceaux simples:**", terrain['arceaux_simple'])
+        st.metric("**Arceaux doubles:**", terrain['arceaux_double'])
+        st.metric("**Arceaux prolongés:**", terrain['arceaux_prolonger'])
 
-        with col2:
-            st.write("**Type city:**",
-                     "Oui" if terrain['type city'] == 2 else "Non")
-            st.write("**Arceaux simples:**", terrain['arrseaux simple'])
-            st.write("**Arceaux doubles:**", terrain['arrseaux double'])
-            st.write("**Arceaux prolongés:**", terrain['arrseaux prolonger'])
+    if terrain['commentaire']:
+        st.info(f"💬 Commentaire: {terrain['commentaire']}")
 
-        if not pd.isna(terrain['commentaire']):
-            st.info(f"💬 Commentaire: {terrain['commentaire']}")
 
-# Affichage des statistiques
-st.sidebar.header("Statistiques")
-st.sidebar.metric("Nombre total de terrains", len(df))
-st.sidebar.metric("Nombre de terrains affichés", len(filtered_df))
-st.sidebar.metric("Nombre total de paniers",
-                  filtered_df['nombre de panier'].sum())
+afficher_terrains(terrains)

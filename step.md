@@ -1,0 +1,11 @@
+- lire le fichier csv
+- afficher dans la console la liste des terrains
+- afficher dans la console le detail d'un terrain
+- init app streamlit
+- liste des terrains
+- detail d'un terrain
+- ajout de la carte d'un terrain
+- ajout des filtres sur l'etat d'un terrain
+- modifier un terrain
+- ajouter un terrain
+- supprimer un terrain
