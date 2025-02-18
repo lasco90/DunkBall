@@ -60,6 +60,15 @@ def afficher_terrain(terrain):
         st.metric(
             f"**Nombre de paniers:**", terrain['nombre_de_paniers'])
 
+    st.markdown(f"""<iframe
+    width="450"
+    height="250"
+    frameborder="0" style="border:0"
+    referrerpolicy="no-referrer-when-downgrade"
+    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBF1ttSNSKP2Ylz3SuGAaAc1T8G5cZ5e6A&q={terrain['latitude']}, {terrain['longitude']}"
+    allowfullscreen>
+    </iframe>""", unsafe_allow_html=True)
+
     with col2:
 
         st.write("**Type city:**",
