@@ -6,10 +6,13 @@ import requests
 
 
 def lire_fichier_csv():
+    if "terrains" in st.session_state:
+        return st.session_state.terrains
     liste_terrains = []
     print("Je commence à lire le fichier...")
     url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTim8FmmeIWAEc2c70WoA3wRZeRePAQkWQE8jRq3_OQvDQyfgQSWHhsiFRRsPgdZCEdt1gTV0WUdcHN/pub?output=csv"
     response = requests.get(url)
+    response.encoding = 'utf-8'
     lecteur = list(csv.reader(response.text.splitlines()))
     n = 0
     # pour chaque ligne du fichier
@@ -34,6 +37,7 @@ def lire_fichier_csv():
             }
             liste_terrains.append(terrain)
         n += 1
+    st.session_state.terrains = liste_terrains
     return liste_terrains
 
 
